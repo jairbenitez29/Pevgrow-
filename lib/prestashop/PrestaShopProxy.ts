@@ -13,16 +13,22 @@ class PrestaShopProxy {
   private htaccessPassword: string;
 
   constructor() {
-    const baseApiUrl = process.env.PRESTASHOP_API_URL || 'https://ps9.pevgrow.com/api';
+    const rawApiUrl = process.env.PRESTASHOP_API_URL || 'https://ps9.pevgrow.com/api';
     this.apiKey = process.env.PRESTASHOP_API_KEY || '';
     this.htaccessUser = process.env.PRESTASHOP_HTACCESS_USER || 'dev';
     this.htaccessPassword = process.env.PRESTASHOP_HTACCESS_PASSWORD || 'pevgrowPs9!Dev';
 
-    // Incluir credenciales htaccess en la URL para servidores con doble autenticación
-    const url = new URL(baseApiUrl);
-    url.username = this.htaccessUser;
-    url.password = this.htaccessPassword;
-    this.baseURL = url.toString();
+    // Construir URL con credenciales htaccess para doble autenticación
+    // Formato: https://user:password@domain/path
+    try {
+      const url = new URL(rawApiUrl);
+      const encodedUser = encodeURIComponent(this.htaccessUser);
+      const encodedPass = encodeURIComponent(this.htaccessPassword);
+      this.baseURL = `${url.protocol}//${encodedUser}:${encodedPass}@${url.host}${url.pathname}`;
+    } catch {
+      // Fallback si la URL no es válida
+      this.baseURL = rawApiUrl;
+    }
   }
 
   /**
