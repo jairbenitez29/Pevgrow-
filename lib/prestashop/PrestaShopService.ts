@@ -248,7 +248,7 @@ class PrestaShopService {
       // Buscar productos que tengan esta categoria (busqueda en memoria, muy rapida)
       const productIds: number[] = [];
 
-      for (const product of allProducts) {
+      for (const product of allProducts || []) {
         let hasCategory = false;
 
         // Verificar en associations.categories
