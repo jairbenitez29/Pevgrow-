@@ -60,7 +60,7 @@ export async function GET(request: Request) {
         id: product.id,
         name: product.name,
         slug: product.slug,
-        image: product.image,
+        image: product.product_thumbnail?.original_url || product.images?.[0]?.original_url,
         price: product.price,
         type: 'product'
       });
@@ -87,7 +87,7 @@ export async function GET(request: Request) {
               id: product.id,
               name: product.name,
               slug: product.slug,
-              image: product.image,
+              image: product.product_thumbnail?.original_url || product.images?.[0]?.original_url,
               price: product.price,
               type: 'product'
             });
