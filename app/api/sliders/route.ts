@@ -12,13 +12,13 @@ export async function GET(request: NextRequest) {
     const active = searchParams.get('active') !== 'false'; // activos por defecto
     const lang = searchParams.get('lang') || 'es';
 
-    // Intentar obtener desde MySQL (endpoint interno)
+    // Intentar obtener desde el microservicio de PrestaShop
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+      const microserviceUrl = process.env.SLIDERS_API_URL || 'http://46.224.111.41:3001/api/sliders';
       const response = await fetch(
-        `${baseUrl}/sliders/prestashop?active=${active}&lang=${lang}`,
+        `${microserviceUrl}?active=${active}&lang=${lang}`,
         {
-          cache: 'no-store', // No cachear en fetch
+          cache: 'no-store',
         }
       );
 
