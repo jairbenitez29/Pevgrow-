@@ -23,7 +23,12 @@ export async function GET(
     // - categories/3/0/1/1/3011-category_default.jpg
     // - 2/6/3/9/5/26395-large_default.jpg (productos)
     let imageUrl;
-    if (imagePath.startsWith('manufacturers/')) {
+    if (imagePath.startsWith('general/')) {
+      // Imágenes generales de la tienda (logo, favicon, etc.)
+      // Ruta: general/header, general/mail, general/invoice, general/store_icon
+      const imageType = imagePath.replace('general/', '');
+      imageUrl = `${baseURL}/api/images/general/${imageType}`;
+    } else if (imagePath.startsWith('manufacturers/')) {
       // Es una imagen de manufacturer
       const manufacturerPath = imagePath.replace('manufacturers/', '');
       const manufacturerId = manufacturerPath.replace('.jpg', '').replace(/\//g, '');

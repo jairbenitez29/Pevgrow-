@@ -87,13 +87,13 @@ export default function FeaturedCategories() {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
             </svg>
-            EXPLORA POR CATEGORIA
+            EXPLORA POR CATEGORÍA
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
             {t('common.categories')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Encuentra exactamente lo que buscas navegando por nuestras categorias principales
+            Encuentra exactamente lo que buscas navegando por nuestras categorías principales
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -103,32 +103,34 @@ export default function FeaturedCategories() {
               href={`/categoria/${category.slug}`}
               className="group"
             >
-              <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-300 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                {/* Imagen de la categoría */}
-                <div className="relative h-32 bg-gradient-to-br from-purple-50 to-pink-50 overflow-hidden">
+              <div className="relative rounded-xl overflow-hidden aspect-[3/4] shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
+                {/* Imagen de fondo */}
+                <div className="absolute inset-0">
                   {category.category_image ? (
                     <Image
                       src={category.category_image}
                       alt={category.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
                       sizes="200px"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <svg className="w-12 h-12 text-purple-300" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                      </svg>
-                    </div>
+                    <div className="w-full h-full bg-gradient-to-br from-purple-600 to-pink-500" />
                   )}
                 </div>
 
-                {/* Contenido */}
-                <div className="p-4 text-center bg-white">
-                  <h3 className="font-bold text-sm text-gray-900 group-hover:text-purple-900 transition-colors line-clamp-2 mb-2">
+                {/* Gradiente oscuro en la parte inferior */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                {/* Overlay morado al hacer hover */}
+                <div className="absolute inset-0 bg-purple-900/0 group-hover:bg-purple-900/40 transition-all duration-500" />
+
+                {/* Nombre y enlace sobre la imagen */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-10">
+                  <h3 className="font-bold text-sm md:text-base leading-tight mb-1 drop-shadow-lg line-clamp-2">
                     {category.name}
                   </h3>
-                  <div className="flex items-center justify-center gap-1 text-xs text-purple-600 font-semibold group-hover:text-purple-900 transition-colors">
+                  <div className="flex items-center gap-1 text-xs text-white/80 font-semibold group-hover:text-white transition-colors">
                     <span>Explorar</span>
                     <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

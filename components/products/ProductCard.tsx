@@ -42,6 +42,9 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const inStock = product.stock_status === 'in_stock';
   const hasDiscount = product.is_sale_enable && product.discount && product.discount > 0;
+  const effectivePrice = product.sale_price || product.price;
+  const savings = hasDiscount ? (product.price - (product.sale_price || product.price)) : 0;
+  const showFreeShipping = effectivePrice >= 30;
 
   return (
     <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:shadow-2xl hover:border-purple-300 hover:-translate-y-1 transition-all duration-300 group">
@@ -61,11 +64,19 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {hasDiscount && (
-            <span className="absolute top-3 right-3 bg-gradient-to-br from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg">
-              -{product.discount}%
-            </span>
-          )}
+          {/* Badges superiores */}
+          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+            {hasDiscount && (
+              <span className="bg-gradient-to-br from-red-500 to-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-lg">
+                -{product.discount}%
+              </span>
+            )}
+            {showFreeShipping && inStock && (
+              <span className="bg-purple-900 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-lg">
+                Envio gratis
+              </span>
+            )}
+          </div>
 
           {!inStock && (
             <div className="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center">
@@ -77,7 +88,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-4">
         <Link href={`/productos/${product.slug}`}>
-          <h3 className="font-bold text-sm text-gray-800 mb-2 line-clamp-2 min-h-[2.5rem] hover:text-purple-900 transition-colors">
+          <h3 className="font-bold text-sm text-gray-800 mb-2 line-clamp-2 min-h-[2.5rem] hover:text-gray-600 transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -89,19 +100,26 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className="text-xs text-gray-500 font-medium">(0)</span>
         </div>
 
-        <div className="flex items-center gap-2 mb-4">
+        <div className="mb-4">
           {hasDiscount ? (
-            <>
-              <span className="text-sm text-gray-400 line-through font-medium">
-                €{product.price.toFixed(2)}
-              </span>
-              <span className="text-xl font-extrabold text-red-600">
-                €{product.sale_price?.toFixed(2)}
-              </span>
-            </>
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-2">
+                <span className="text-base font-bold text-gray-900">
+                  {product.sale_price?.toFixed(2)} EUR
+                </span>
+                <span className="text-xs text-gray-400 line-through">
+                  {product.price.toFixed(2)} EUR
+                </span>
+              </div>
+              {savings > 0 && (
+                <span className="text-xs font-medium text-green-600 mt-0.5">
+                  Ahorras {savings.toFixed(2)} EUR
+                </span>
+              )}
+            </div>
           ) : (
-            <span className="text-xl font-extrabold text-purple-900">
-              €{product.price.toFixed(2)}
+            <span className="text-base font-bold text-gray-900">
+              {product.price.toFixed(2)} EUR
             </span>
           )}
         </div>

@@ -139,8 +139,8 @@ export default function ImageSlider({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Slider Container */}
-      <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+      {/* Slider Container - aspect ratio adaptado a banners panorámicos */}
+      <div className="relative aspect-[1920/380]">
         {/* Slides */}
         {slides.map((slideItem, index) => (
           <div
@@ -149,39 +149,27 @@ export default function ImageSlider({
               index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
             }`}
           >
-            {/* Background Image */}
-            <div className="absolute inset-0">
+            {slideItem.url ? (
+              <Link href={slideItem.url} className="absolute inset-0 cursor-pointer">
+                <Image
+                  src={slideItem.image}
+                  alt={slideItem.title || 'Promoción Pevgrow'}
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                  sizes="100vw"
+                />
+              </Link>
+            ) : (
               <Image
                 src={slideItem.image}
-                alt={slideItem.title}
+                alt={slideItem.title || 'Promoción Pevgrow'}
                 fill
                 className="object-cover"
                 priority={index === 0}
                 sizes="100vw"
               />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
-              <div className="max-w-2xl backdrop-blur-sm bg-black/30 p-8 rounded-2xl">
-                <h2 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                  {slideItem.title}
-                </h2>
-                <div
-                  className="text-lg md:text-xl mb-8 text-white drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]"
-                  dangerouslySetInnerHTML={{ __html: slideItem.description }}
-                />
-                {slideItem.url && (
-                  <Link href={slideItem.url}>
-                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all shadow-2xl hover:scale-105 hover:shadow-purple-500/50">
-                      Descubre Más
-                    </button>
-                  </Link>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         ))}
 
@@ -247,12 +235,6 @@ export default function ImageSlider({
           </div>
         )}
 
-        {/* Autoplay indicator (optional) */}
-        {!isPaused && slides.length > 1 && (
-          <div className="absolute top-4 right-4 z-20 bg-purple-900/80 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
-            ▶ Auto
-          </div>
-        )}
       </div>
     </section>
   );

@@ -128,16 +128,9 @@ export default function TopBrands() {
                 </div>
 
                 {/* Brand Name */}
-                <h3 className="font-bold text-sm text-gray-900 group-hover:text-purple-900 transition-colors mb-1 line-clamp-2">
+                <h3 className="font-bold text-sm text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">
                   {brand.name}
                 </h3>
-
-                {/* Products Count */}
-                {brand.products_count && (
-                  <p className="text-xs text-gray-500 font-medium">
-                    {brand.products_count} productos
-                  </p>
-                )}
               </div>
             </Link>
           ))}
